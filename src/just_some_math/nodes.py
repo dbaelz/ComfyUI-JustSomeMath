@@ -107,9 +107,9 @@ class Example:
 
 
 
-class Multiply:
+class MultiplyInt:
     """
-    Multiply node
+    Multiply Int node
     """
     def __init__(self):
         pass
@@ -148,10 +148,10 @@ class Multiply:
 # A dictionary that contains all nodes you want to export with their names
 # NOTE: names should be globally unique
 NODE_CLASS_MAPPINGS = {
-    "JSM-Multiply": Multiply
+    "JSM-Multiply-Int": MultiplyInt
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "JSM-Multiply": "Multiply"
+    "JSM-Multiply-Int": "Multiply Int"
 }
