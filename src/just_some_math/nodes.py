@@ -106,13 +106,52 @@ class Example:
     #    return ""
 
 
+
+class Multiply:
+    """
+    Multiply node
+    """
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "int":  ("INT", {
+                    "default": 1,
+                    "min": 1,
+                    "display": "number"
+                }),
+                "multiplier": ("INT", {
+                    "default": 1,
+                    "min": 1,
+                    "display": "number"
+                })
+            },
+        }
+
+    RETURN_TYPES = ("INT",)
+    DESCRIPTION = cleandoc(__doc__)
+    FUNCTION = "multiply"
+
+    CATEGORY = "utils"
+    
+    def multiply(self, int, multiplier):
+        return (int * multiplier,)
+        
+    #@classmethod
+    #def IS_CHANGED(s, image, string_field, int_field, float_field, print_to_screen):
+    #    return ""
+
+
 # A dictionary that contains all nodes you want to export with their names
 # NOTE: names should be globally unique
 NODE_CLASS_MAPPINGS = {
-    "Example": Example
+    "JSM-Multiply": Multiply
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "Example": "Example Node"
+    "JSM-Multiply": "Multiply"
 }
