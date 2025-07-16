@@ -144,14 +144,54 @@ class MultiplyInt:
     #def IS_CHANGED(s, image, string_field, int_field, float_field, print_to_screen):
     #    return ""
 
+class MultiplyFloat:
+    """
+    Multiply Float node
+    """
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "float":  ("FLOAT", {
+                    "default": 1.0,
+                    "min": 0.0,
+                    "step": 0.01,
+                    "display": "number"
+                }),
+                "multiplier": ("FLOAT", {
+                    "default": 1.0,
+                    "min": 0.0,
+                    "step": 0.01,
+                    "display": "number"
+                })
+            },
+        }
+
+    RETURN_TYPES = ("FLOAT",)
+    DESCRIPTION = cleandoc(__doc__)
+    FUNCTION = "multiply"
+
+    CATEGORY = "utils"
+    
+    def multiply(self, float, multiplier):
+        return (float * multiplier,)
+
+    #@classmethod
+    #def IS_CHANGED(s, float, multiplier):
+    #    return ""
 
 # A dictionary that contains all nodes you want to export with their names
 # NOTE: names should be globally unique
 NODE_CLASS_MAPPINGS = {
-    "JSM-Multiply-Int": MultiplyInt
+    "JSM-Multiply-Int": MultiplyInt,
+    "JSM-Multiply-Float": MultiplyFloat
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "JSM-Multiply-Int": "Multiply Int"
+    "JSM-Multiply-Int": "Multiply Int",
+    "JSM-Multiply-Float": "Multiply Float"
 }
