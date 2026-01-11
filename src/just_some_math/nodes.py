@@ -1,5 +1,6 @@
 from inspect import cleandoc
 
+ARITHMETIC_OPERATIONS = ("add", "subtract", "multiply", "divide")
 
 class Example:
     """
@@ -188,15 +189,63 @@ class MultiplyFloat:
     # def IS_CHANGED(s, float, multiplier):
     #    return ""
 
+
+class ArithemticInt:
+    """
+    Base arithemtic node
+    """
+
+    def __init__(self):
+        pass
+    
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "a": ("INT", {"default": 0, "display": "number"}),
+                "b": ("INT", {"default": 0, "display": "number"}),
+                "operation": (
+                    ARITHMETIC_OPERATIONS,
+                    {"default": ARITHMETIC_OPERATIONS[0]},
+                ),
+            },
+        }
+
+    RETURN_TYPES = ("FLOAT", "INT")
+    DESCRIPTION = cleandoc(__doc__)
+    FUNCTION = "calculate"
+    CATEGORY = "utils"
+
+    def calculate(self, a=0, b=0, operation=ARITHMETIC_OPERATIONS[0]):
+        if operation == ARITHMETIC_OPERATIONS[0]:  # add
+            result = a + b
+        elif operation == ARITHMETIC_OPERATIONS[1]:  # subtract
+            result = a - b
+        elif operation == ARITHMETIC_OPERATIONS[2]:  # multiply
+            result = a * b
+        elif operation == ARITHMETIC_OPERATIONS[3]:  # divide
+            if b != 0:
+                result = a / b
+            else:
+                raise ZeroDivisionError("Division by zero is not allowed.")
+        else:
+            raise ValueError(f"Unknown operation: {operation}")
+        
+        return (float(result), int(round(result)))
+
+
 # A dictionary that contains all nodes you want to export with their names
 # NOTE: names should be globally unique
 NODE_CLASS_MAPPINGS = {
     "JSM-Multiply-Int": MultiplyInt,
     "JSM-Multiply-Float": MultiplyFloat,
+    "JSM-Arithemtic-Int": ArithemticInt,
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
     "JSM-Multiply-Int": "Multiply Int",
     "JSM-Multiply-Float": "Multiply Float",
+    "JSM-Arithemtic-Int": "Arithmetic Int",
 }
