@@ -1,4 +1,6 @@
 from inspect import cleandoc
+
+
 class Example:
     """
     A example node
@@ -28,68 +30,81 @@ class Example:
         The entry point method. The name of this method must be the same as the value of property `FUNCTION`.
         For example, if `FUNCTION = "execute"` then this method's name must be `execute`, if `FUNCTION = "foo"` then it must be `foo`.
     """
+
     def __init__(self):
         pass
 
     @classmethod
     def INPUT_TYPES(s):
         """
-            Return a dictionary which contains config for all input fields.
-            Some types (string): "MODEL", "VAE", "CLIP", "CONDITIONING", "LATENT", "IMAGE", "INT", "STRING", "FLOAT".
-            Input types "INT", "STRING" or "FLOAT" are special values for fields on the node.
-            The type can be a list for selection.
+        Return a dictionary which contains config for all input fields.
+        Some types (string): "MODEL", "VAE", "CLIP", "CONDITIONING", "LATENT", "IMAGE", "INT", "STRING", "FLOAT".
+        Input types "INT", "STRING" or "FLOAT" are special values for fields on the node.
+        The type can be a list for selection.
 
-            Returns: `dict`:
-                - Key input_fields_group (`string`): Can be either required, hidden or optional. A node class must have property `required`
-                - Value input_fields (`dict`): Contains input fields config:
-                    * Key field_name (`string`): Name of a entry-point method's argument
-                    * Value field_config (`tuple`):
-                        + First value is a string indicate the type of field or a list for selection.
-                        + Secound value is a config for type "INT", "STRING" or "FLOAT".
+        Returns: `dict`:
+            - Key input_fields_group (`string`): Can be either required, hidden or optional. A node class must have property `required`
+            - Value input_fields (`dict`): Contains input fields config:
+                * Key field_name (`string`): Name of a entry-point method's argument
+                * Value field_config (`tuple`):
+                    + First value is a string indicate the type of field or a list for selection.
+                    + Secound value is a config for type "INT", "STRING" or "FLOAT".
         """
         return {
             "required": {
-                "image": ("Image", { "tooltip": "This is an image"}),
-                "int_field": ("INT", {
-                    "default": 0,
-                    "min": 0, #Minimum value
-                    "max": 4096, #Maximum value
-                    "step": 64, #Slider's step
-                    "display": "number" # Cosmetic only: display as "number" or "slider"
-                }),
-                "float_field": ("FLOAT", {
-                    "default": 1.0,
-                    "min": 0.0,
-                    "max": 10.0,
-                    "step": 0.01,
-                    "round": 0.001, #The value represeting the precision to round to, will be set to the step value by default. Can be set to False to disable rounding.
-                    "display": "number"}),
+                "image": ("Image", {"tooltip": "This is an image"}),
+                "int_field": (
+                    "INT",
+                    {
+                        "default": 0,
+                        "min": 0,  # Minimum value
+                        "max": 4096,  # Maximum value
+                        "step": 64,  # Slider's step
+                        "display": "number",  # Cosmetic only: display as "number" or "slider"
+                    },
+                ),
+                "float_field": (
+                    "FLOAT",
+                    {
+                        "default": 1.0,
+                        "min": 0.0,
+                        "max": 10.0,
+                        "step": 0.01,
+                        "round": 0.001,  # The value represeting the precision to round to, will be set to the step value by default. Can be set to False to disable rounding.
+                        "display": "number",
+                    },
+                ),
                 "print_to_screen": (["enable", "disable"],),
-                "string_field": ("STRING", {
-                    "multiline": False, #True if you want the field to look like the one on the ClipTextEncode node
-                    "default": "Hello World!"
-                }),
+                "string_field": (
+                    "STRING",
+                    {
+                        "multiline": False,  # True if you want the field to look like the one on the ClipTextEncode node
+                        "default": "Hello World!",
+                    },
+                ),
             },
         }
 
     RETURN_TYPES = ("IMAGE",)
-    #RETURN_NAMES = ("image_output_name",)
+    # RETURN_NAMES = ("image_output_name",)
     DESCRIPTION = cleandoc(__doc__)
     FUNCTION = "test"
 
-    #OUTPUT_NODE = False
-    #OUTPUT_TOOLTIPS = ("",) # Tooltips for the output node
+    # OUTPUT_NODE = False
+    # OUTPUT_TOOLTIPS = ("",) # Tooltips for the output node
 
     CATEGORY = "Example"
 
     def test(self, image, string_field, int_field, float_field, print_to_screen):
         if print_to_screen == "enable":
-            print(f"""Your input contains:
+            print(
+                f"""Your input contains:
                 string_field aka input text: {string_field}
                 int_field: {int_field}
                 float_field: {float_field}
-            """)
-        #do some processing on the image, in this example I just invert it
+            """
+            )
+        # do some processing on the image, in this example I just invert it
         image = 1.0 - image
         return (image,)
 
@@ -101,16 +116,16 @@ class Example:
         This method is used in the core repo for the LoadImage node where they return the image hash as a string, if the image hash
         changes between executions the LoadImage node is executed again.
     """
-    #@classmethod
-    #def IS_CHANGED(s, image, string_field, int_field, float_field, print_to_screen):
+    # @classmethod
+    # def IS_CHANGED(s, image, string_field, int_field, float_field, print_to_screen):
     #    return ""
-
 
 
 class MultiplyInt:
     """
     Multiply Int node
     """
+
     def __init__(self):
         pass
 
@@ -118,16 +133,8 @@ class MultiplyInt:
     def INPUT_TYPES(s):
         return {
             "required": {
-                "int":  ("INT", {
-                    "default": 1,
-                    "min": 1,
-                    "display": "number"
-                }),
-                "multiplier": ("INT", {
-                    "default": 1,
-                    "min": 1,
-                    "display": "number"
-                })
+                "int": ("INT", {"default": 1, "min": 1, "display": "number"}),
+                "multiplier": ("INT", {"default": 1, "min": 1, "display": "number"}),
             },
         }
 
@@ -136,18 +143,20 @@ class MultiplyInt:
     FUNCTION = "multiply"
 
     CATEGORY = "utils"
-    
+
     def multiply(self, int, multiplier):
         return (int * multiplier,)
-        
-    #@classmethod
-    #def IS_CHANGED(s, image, string_field, int_field, float_field, print_to_screen):
+
+    # @classmethod
+    # def IS_CHANGED(s, image, string_field, int_field, float_field, print_to_screen):
     #    return ""
+
 
 class MultiplyFloat:
     """
     Multiply Float node
     """
+
     def __init__(self):
         pass
 
@@ -155,18 +164,14 @@ class MultiplyFloat:
     def INPUT_TYPES(s):
         return {
             "required": {
-                "float":  ("FLOAT", {
-                    "default": 1.0,
-                    "min": 0.0,
-                    "step": 0.01,
-                    "display": "number"
-                }),
-                "multiplier": ("FLOAT", {
-                    "default": 1.0,
-                    "min": 0.0,
-                    "step": 0.01,
-                    "display": "number"
-                })
+                "float": (
+                    "FLOAT",
+                    {"default": 1.0, "min": 0.0, "step": 0.01, "display": "number"},
+                ),
+                "multiplier": (
+                    "FLOAT",
+                    {"default": 1.0, "min": 0.0, "step": 0.01, "display": "number"},
+                ),
             },
         }
 
@@ -175,23 +180,23 @@ class MultiplyFloat:
     FUNCTION = "multiply"
 
     CATEGORY = "utils"
-    
+
     def multiply(self, float, multiplier):
         return (float * multiplier,)
 
-    #@classmethod
-    #def IS_CHANGED(s, float, multiplier):
+    # @classmethod
+    # def IS_CHANGED(s, float, multiplier):
     #    return ""
 
 # A dictionary that contains all nodes you want to export with their names
 # NOTE: names should be globally unique
 NODE_CLASS_MAPPINGS = {
     "JSM-Multiply-Int": MultiplyInt,
-    "JSM-Multiply-Float": MultiplyFloat
+    "JSM-Multiply-Float": MultiplyFloat,
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
     "JSM-Multiply-Int": "Multiply Int",
-    "JSM-Multiply-Float": "Multiply Float"
+    "JSM-Multiply-Float": "Multiply Float",
 }
