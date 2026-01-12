@@ -192,7 +192,7 @@ class MultiplyFloat:
 
 class ArithemticInt:
     """
-    Base arithemtic node
+    Base arithemtic node for integer inputs
     """
 
     def __init__(self):
@@ -234,6 +234,50 @@ class ArithemticInt:
         
         return (float(result), int(round(result)))
 
+class ArithemticFloat:
+    """
+    Base arithemtic node for float inputs
+    """
+
+    def __init__(self):
+        pass
+    
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "a": ("FLOAT", {"default": 0.0, "display": "number"}),
+                "b": ("FLOAT", {"default": 0.0, "display": "number"}),
+                "operation": (
+                    ARITHMETIC_OPERATIONS,
+                    {"default": ARITHMETIC_OPERATIONS[0]},
+                ),
+            },
+        }
+
+    RETURN_TYPES = ("FLOAT",)
+    DESCRIPTION = cleandoc(__doc__)
+    FUNCTION = "calculate"
+    CATEGORY = "utils"
+
+    def calculate(self, a=0.0, b=0.0, operation=ARITHMETIC_OPERATIONS[0]):
+        if operation == ARITHMETIC_OPERATIONS[0]:  # add
+            result = a + b
+        elif operation == ARITHMETIC_OPERATIONS[1]:  # subtract
+            result = a - b
+        elif operation == ARITHMETIC_OPERATIONS[2]:  # multiply
+            result = a * b
+        elif operation == ARITHMETIC_OPERATIONS[3]:  # divide
+            if b != 0.0:
+                result = a / b
+            else:
+                raise ZeroDivisionError("Division by zero is not allowed.")
+        else:
+            raise ValueError(f"Unknown operation: {operation}")
+        
+        return (float(result),)
+    
 
 # A dictionary that contains all nodes you want to export with their names
 # NOTE: names should be globally unique
@@ -241,6 +285,7 @@ NODE_CLASS_MAPPINGS = {
     "JSM-Multiply-Int": MultiplyInt,
     "JSM-Multiply-Float": MultiplyFloat,
     "JSM-Arithemtic-Int": ArithemticInt,
+    "JSM-Arithemtic-Float": ArithemticFloat,
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
@@ -248,4 +293,5 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "JSM-Multiply-Int": "Multiply Int",
     "JSM-Multiply-Float": "Multiply Float",
     "JSM-Arithemtic-Int": "Arithmetic Int",
+    "JSM-Arithemtic-Float": "Arithmetic Float",
 }
